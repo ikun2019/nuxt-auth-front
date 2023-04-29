@@ -35,15 +35,47 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/auth',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: '/',
+    baseURL: 'http://localhost:3000',
+    debug: true,
+    proxyHeaders: false,
+    credentials: true,
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-  }
+  },
+  auth: {
+    localStorage: true,
+    strategies: {
+      local: {
+        endpoints: {
+          login: {
+            url: '/graphql',
+            method: 'post',
+            propertyName: 'token'
+          },
+          user: false,
+          logout: false,
+        },
+        tokenRequired: true,
+        tokenType: 'Bearer',
+        token: {
+          property: 'token',
+          name: 'auth._token.local',
+        },
+      }
+    },
+    redirect: {
+      login: '/login',
+      logout: '/',
+      callback: '/login',
+      home: '/',
+    },
+  },
 }
