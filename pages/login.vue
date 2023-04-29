@@ -32,6 +32,11 @@ export default {
           mutation login($email: String!, $password: String!) {
             login(email: $email, password: $password) {
               token
+              user {
+                id
+                name
+                email
+              }
             }
           }
         `,
@@ -42,7 +47,8 @@ export default {
         });
 
         const token = response.data.login.token;
-        await this.$auth.loginWith('local', { token });
+        this.$auth.setUser(response.data.login.user);
+        await this.$auth.setToken('local', 'Bearer' + token);
         console.log('login successful');
         this.$router.push('/');
       } catch (err) {

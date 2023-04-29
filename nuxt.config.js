@@ -67,7 +67,7 @@ export default {
         tokenType: 'Bearer',
         token: {
           property: 'token',
-          name: 'auth._token.local',
+          name: 'auth',
         },
       }
     },
@@ -77,5 +77,5 @@ export default {
       callback: '/login',
       home: '/',
     },
-  },
+  }
 }
